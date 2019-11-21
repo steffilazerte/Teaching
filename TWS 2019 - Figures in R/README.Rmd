@@ -1,0 +1,26 @@
+---
+output: github_document
+---
+
+# R Workshop for The Wildlife Society Manitoba Chapter 2019
+
+## Workshop files
+
+- [HTML version](intro_with_figures.html)
+- [PDF version](intro_with_figures.pdf)
+- [Sleep Data (new_sleep.csv)](new_sleep.csv)
+
+The `new_sleep.csv` data file was created with the following code:
+```{r}
+library(tidyverse)
+
+sleep <- msleep %>%
+  filter(!is.na(sleep_rem)) %>%
+  mutate(body_size = if_else(bodywt > median(bodywt), "Large", "Small"),
+         vore = replace(vore, is.na(vore), "unknown")) %>%
+  select(name, vore, conservation, sleep_total, sleep_rem, sleep_cycle, 
+         awake, bodywt, body_size)
+
+write_csv(sleep, "./TWS 2019 - Figures in R/new_sleep.csv")
+```
+
