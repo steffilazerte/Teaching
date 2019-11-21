@@ -21,7 +21,7 @@ class: title-slide, nobar
 .footer[Presentation available here: <>]
 
 ```{r setup, include = FALSE}
-hide_answers <- FALSE
+hide_answers <- TRUE
 
 library(knitr)
 opts_chunk$set(dpi = 250, fig.width = 6, fig.asp = 0.65, 
@@ -1350,6 +1350,8 @@ ggplot(sleep, aes(x = sleep_total, y = sleep_rem, colour = conservation)) +
 
 ---
 # Wrapping up
+
+[Answers!](https://github.com/steffilazerte/Teaching/raw/master/TWS%202019%20-%20Figures%20in%20R/intro_with_figures_answers.pdf)
 
 ## R is hard: But have no fear!
 - Don't expect to remember everything!

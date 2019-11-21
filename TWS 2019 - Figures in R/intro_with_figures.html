@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Creating Figures as an Intro to R</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="styles-pres.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class: title-slide, nobar
+
+## TWS R Workshop
+# Creating Figures as an Intro to R
+## Using the `ggplot2` package
+
+.footer[Presentation available here: &lt;&gt;]
+
+
+
+
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-1-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+
+---
+class: space-list
+background-image: url(../AA_Common/steffi_office.jpg)
+background-position: right 25px bottom 50px
+background-size: 50%
+
+# Introductions
+
+## Dr. Steffi LaZerte
+
+- Background in Biology (Animal Behaviour)
+- Working with R since 2007
+- Professional R programmer/consultant&lt;br&gt;since 2017
+
+---
+# What about you?
+
+- Name
+- Background (Area of study, etc.)
+- Familiarity with Computer Programming (C+, Java, HTML, PHP, python, SAS)
+- Familiarity with R
+    - I've heard of R
+    - I've installed R (before this class)
+    - I've used R
+    - I've used R a lot
+    - I use R all the time
+
+
+---
+# Outline
+
+## 1. A little about R
+
+## 2. Creating figures with `ggplot2`
+- Basic plot
+- Common plot types
+- Plotting by categories
+- Adding statistics
+- Customizing plots
+- Annotating plots
+
+## 3. Saving figures
+
+## 4. (EXTRA) Combining figures 
+
+---
+background-image: url(../AA_Common/impostR_en.png)
+background-position: center center
+background-size: 70%
+
+# Impost**R** Syndrome
+
+---
+background-image: url(../AA_Common/impostR_en.png)
+background-position: right 75px top 25%
+background-size: 30%
+
+# Impost**R** Syndrome
+
+![:img left: 25px, bottom: 175px, 60%, , David Whittaker](../AA_Common/Figures/imposter.jpg)
+
+--
+
+![:box 50%, 80%, 65%](&lt;strong&gt;Moral of the story?&lt;/strong&gt;&lt;br&gt;Make friends, code in groups, learn together and don't beat yourself up)
+
+---
+class: nobar
+![:img center, bottom: 0, 53%, ,](https://github.com/allisonhorst/stats-illustrations/raw/master/rstats-artwork/r_first_then.png)
+
+
+.footer[[@allison_horst](https://github.com/allisonhorst/stats-illustrations)]
+
+
+---
+class: section
+
+# Why R?
+
+---
+layout: true
+# Why R?
+
+---
+background-image: url(../AA_Common/Figures/R_hard.png)
+background-position: right 15% bottom 10%
+background-size: 70%
+
+## R is hard
+
+---
+background-image: url(../AA_Common/Figures/R_powerful2_edit.png)
+background-position: center bottom 40%
+background-size: 70%
+
+## But R is powerful (and reproducible)!
+
+---
+background-image: url(../AA_Common/Figures/spatial.png)
+background-position: center bottom 10%
+background-size: 40%
+
+## R is also beautiful
+
+---
+background-image: url(../AA_Common/Figures/R_free.png)
+background-position: center bottom 40%
+background-size: 70%
+
+## R is affordable (i.e. free!)
+
+---
+layout: false
+class: section
+
+# What is R?
+
+---
+# R is Programming language
+
+&gt; A programming **language** is a way to give instructions in order to get a computer to do something
+
+- You need to know the language (i.e. the code)
+- Computers don't know what you mean, only what you type (unfortunately)
+- Spelling, punctuation, and capitalization all matter!
+
+## For example
+
+**R, what is 56 times 5.8?**
+
+
+```r
+56 * 5.8
+```
+
+```
+## [1] 324.8
+```
+
+---
+# Use code to tell R what to do
+
+**R, what is the average of numbers 1, 2, 3, 4?**
+
+
+```r
+mean(c(1, 2, 3, 4))
+```
+
+```
+## [1] 2.5
+```
+
+--
+
+**R, save this value for later**
+
+
+```r
+steffis_mean &lt;- mean(c(1, 2, 3, 4))
+```
+
+--
+
+**R, multiply this value by 6**
+
+
+```r
+steffis_mean * 6
+```
+
+```
+## [1] 15
+```
+
+---
+# Code, Output, Scripts
+
+.pull-left[
+## Code
+- The actual commands
+
+## Output
+- The result of running code or a script
+
+## Script
+- A text file full of code that you want to run
+- You should **always** keep your code in a script
+]
+
+
+--
+
+.pull-right[
+
+## For example:
+
+
+```r
+mean(c(1, 2, 3, 4))
+```
+
+```
+## [1] 2.5
+```
+]
+
+
+![:here right: 100px, top: 172px, blue](&lt;strong&gt;Code&lt;/strong&gt;)
+![:here right: 100px, top: 222px, blue](&lt;strong&gt;Output&lt;/strong&gt;)
+
+![:here right: 100px, top: 300px, blue](&lt;strong&gt;Script&lt;/strong&gt;)
+
+![:img right: 200px, bottom: 5px, 30%, ,](../AA_Common/Figures/script.png)
+
+
+
+
+
+---
+# RStudio vs. R
+
+![:img left: 15%, top: 125px, 300px, , RStudio](../AA_Common/RStudio-Ball.png)
+![:img right: 15%, top: 125px, 400px, , R](../AA_Common/R.png)
+
+
+
+![:spacer 175px]()
+
+- **RStudio** is not **R**
+- RStudio is a User Interface or IDE (integrated development environment)
+    - (i.e., Makes coding simpler)
+
+---
+layout:false
+class: section
+# R Basics: Objects
+
+Objects are *things* in the environment  
+
+(Check out the **Environment** pane in RStudio)
+
+
+---
+# `functions()` - Do things, Return things
+
+**`mean()`, `read_csv()`, `ggplot()`, `c()`, etc.**
+
+--
+
+- Always have `()`
+- Can take **arguments** (think 'options')
+    - `mean(x = c(2, 10, 45))`, 
+    - `mean(x = c(NA, 10, 2, 65), na.rm = TRUE)`
+
+--
+
+- Arguments defined by **name** or by **position**
+- With correct position, do not need to specify by name
+
+![:spacer 15px]()
+
+.pull-left[
+### By name:
+
+```r
+mean(x = c(1, 5, 10))
+```
+
+```
+## [1] 5.333333
+```
+]
+
+.pull-right[
+### By position:
+
+```r
+mean(c(1, 5, 10))
+```
+
+```
+## [1] 5.333333
+```
+]
+
+---
+# R documentation
+
+.pull-left-15[
+
+```r
+?mean
+```
+]
+
+--
+![:img right: 10%, bottom: 5%, 60%, , ](../AA_Common/Figures/mean_docs.png)
+
+--
+
+![:hl 55.75%, 58%, 250px, 25px]()
+
+
+---
+# `Data`
+
+Generally kept in `vectors` or `data.frames`
+
+- These are objects with names (like functions)
+- We can use `&lt;-` to assign values to objects (assignment)
+
+.pull-left-45[
+## Vector (1 dimension)
+
+
+```r
+my_data &lt;- c("a", 100, "c")
+my_data
+```
+
+```
+## [1] "a"   "100" "c"
+```
+]
+
+.pull-right-55[
+## Data frame (2 dimensions)
+
+
+```r
+my_data &lt;- data.frame(site = c("s1", "s2", "s3"),
+                      count = c(101, 102, 103),
+                      treatment = c("a", "b", "c"))
+my_data
+```
+
+```
+##   site count treatment
+## 1   s1   101         a
+## 2   s2   102         b
+## 3   s3   103         c
+```
+]
+
+![:box 10%, 42%, 175px](rows x columns)
+
+---
+layout:false
+class: section
+# R Basics: Code
+
+
+---
+# Your first code
+
+
+```r
+# First load the package and data
+library(tidyverse)
+sleep &lt;- read_csv("https://git.io/Je6DF")
+
+# Now create the figure
+ggplot(data = sleep, aes(x = sleep_total, y = sleep_rem)) +
+    geom_point()
+```
+
+.spacer[ ]
+
+- Copy/paste or type this into the script window in RStudio
+- Click anywhere on the first line of code
+- Use the 'Run' button to run this code, **or** use the short-cut `Ctrl-Enter`
+    - Repeat until all the code has run
+
+---
+layout: true
+# First Code
+
+
+```r
+# First load the package and data
+library(tidyverse)
+sleep &lt;- read_csv("https://git.io/Je6DF")
+
+# Now create the figure
+ggplot(data = sleep, aes(x = sleep_total, y = sleep_rem)) +
+    geom_point()
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-13-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+![:label 77%, 23%, 20%](Package&lt;br&gt;
+&lt;code&gt;tidyverse&lt;/code&gt;)
+![:hl 84%, 26%, 10%, 25px]()
+
+---
+![:label 77%, 23%, 20%](Function&lt;br&gt;
+&lt;code&gt;library(&amp;rpar;&lt;/code&gt;)
+![:hl 87%, 26%, 16.5%, 25px]()
+
+---
+
+![:label 57%, 27.5%, 20%](Function &lt;br&gt;&lt;code&gt;read_csv(&amp;rpar;&lt;/code&gt;)
+![:hl 73%, 30.5%, 29%, 25px]()
+
+---
+
+![:label 40%, 39.5%, 20%](Function &lt;br&gt;&lt;code&gt;ggplot(&amp;rpar;&lt;/code&gt;)
+![:hl 70%, 42.5%, 51%, 25px]()
+
+---
+
+![:label 40%, 39.5%, 20%](Function &lt;br&gt;&lt;code&gt;aes(&amp;rpar;&lt;/code&gt;)
+![:hl 61%, 42.5%, 31%, 25px]()
+
+---
+
+![:label 77%, 43.5%, 20%](Function &lt;br&gt;&lt;code&gt;geom_point(&amp;rpar;&lt;/code&gt;)
+![:hl 86.5%, 47%, 11%, 25px]()
+
+---
+
+![:label 40%, 39.5%, 20%](&lt;code&gt;+&lt;/code&gt;&lt;br&gt;(Specific to &lt;code&gt;ggplot&lt;/code&gt;&amp;rpar;)
+![:hl 42.75%, 42.5%, 3%, 25px]()
+
+---
+
+![:label 22%, 57%, 17%](Figure!)
+
+
+---
+
+![:label 72%, 18%, 20%](Comments)
+![:hl 84.5%, 21%, 22%, 25px]()
+
+![:hl 84.5%, 38%, 22%, 25px]()
+
+---
+layout: false
+class: section
+
+# Hooray!
+
+## Time for Figures!
+
+---
+class: nobar
+# `ggplot2`
+
+![:img center, bottom: 0, 78%, ,](https://github.com/allisonhorst/stats-illustrations/raw/master/rstats-artwork/ggplot2_masterpiece.png)
+
+.footer[[@allison_horst](https://github.com/allisonhorst/stats-illustrations)]
+
+
+
+---
+# A basic plot
+
+
+```r
+library(ggplot2) # Also inside the tidyverse
+ggplot(data = sleep, aes(x = sleep_total, y = sleep_rem)) +
+    geom_point()
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-14-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Break it down
+
+```r
+library(ggplot2) # Also inside the tidyverse
+ggplot(data = sleep, aes(x = sleep_total, y = sleep_rem)) +
+    geom_point()
+```
+
+### `ggplot(data = sleep, aes(x = sleep_total, y = sleep_rem))`
+
+![:spacer 10px]()
+
+- Load the `ggplot2` (or `tidyverse`) package
+- Set the attributes of your plot
+- **`data`** = Dataset
+- **`aes`** = Aesthetics (how the data are used)
+- Think of this as your plot defaults
+
+---
+
+# Break it down
+
+```r
+library(ggplot2) # Also inside the tidyverse
+ggplot(data = sleep, aes(x = sleep_total, y = sleep_rem)) +
+    geom_point()
+```
+
+### `geom_point()`
+
+- Choose a `geom` function to display the data
+- Always *added* to a `ggplot()` call with **+**
+
+&gt; ggplots are essentially layered objects, starting with a call to `ggplot()`
+
+
+---
+# Plots are layered
+
+.pull-left[
+.small[
+
+```r
+ggplot(data = sleep, aes(x = vore, y = sleep_total))
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+
+.pull-right[
+.small[
+
+```r
+ggplot(data = sleep, aes(x = vore, y = sleep_total)) +
+  geom_boxplot()
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+
+---
+# Plots are layered
+
+.pull-left[
+.small[
+
+```r
+ggplot(data = sleep, aes(x = vore, y = sleep_total))
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+
+.pull-right[
+.small[
+
+```r
+ggplot(data = sleep, aes(x = vore, y = sleep_total)) +
+* geom_point()
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-20-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+
+---
+# Plots are layered
+
+.pull-left[
+.small[
+
+```r
+ggplot(data = sleep, aes(x = vore, y = sleep_total))
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-21-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+
+.pull-right[
+.small[
+
+```r
+ggplot(data = sleep, aes(x = vore, y = sleep_total)) +
+* geom_boxplot()
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-22-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+
+---
+# Plots are layered
+
+.pull-left[
+.small[
+
+```r
+ggplot(data = sleep, aes(x = vore, y = sleep_total))
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-23-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+
+.pull-right[
+.small[
+
+```r
+ggplot(data = sleep, aes(x = vore, y = sleep_total)) +
+* geom_violin()
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-24-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+
+---
+# Plots are objects
+
+
+#### Any ggplot can be saved as an object
+
+
+```r
+g &lt;- ggplot(data = sleep, aes(x = vore, y = sleep_total))
+```
+
+--
+
+.pull-left[
+
+```r
+g
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-26-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+.pull-right[
+
+```r
+g + geom_boxplot()
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-27-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Layering
+
+.pull-left[
+### You can add multiple layers
+
+
+```r
+g +
+  geom_boxplot() +
+  geom_point(size = 2, colour = "red")
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-28-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+.pull-right[
+### Order matters
+
+
+```r
+g +
+  geom_point(size = 2, colour = "red") +
+  geom_boxplot()
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-29-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: section
+
+# More Geoms
+
+### (Plot types)
+
+---
+# Geoms: Lines
+
+
+```r
+ggplot(data = sleep, aes(x = sleep_total, y = sleep_rem)) +
+* geom_line()
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-30-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Geoms: Boxplots
+
+
+```r
+ggplot(data = sleep, aes(x = vore, y = sleep_total)) +
+* geom_boxplot()
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-31-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Geoms: Histogram
+
+
+```r
+ggplot(data = sleep, aes(x = sleep_rem)) +
+* geom_histogram(binwidth = 0.5)
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-32-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+--
+
+![:label 50%, 18%, 25%](&lt;strong&gt;Note:&lt;/strong&gt; We only need 1 aesthetic here (x&amp;rpar;)
+
+---
+# Geoms: Barplots
+
+### Let `ggplot` count your data
+
+
+```r
+ggplot(data = sleep, aes(x = conservation)) +
+* geom_bar()
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-33-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+# Geoms: Barplots
+
+### You can also provide the counts
+
+.small[
+
+```r
+ggplot(data = sleep, aes(x = name, y = sleep_total)) +
+  geom_bar(stat = "identity") +
+  theme(axis.text.x = element_text(angle = 45, hjust =1))
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-34-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Your Turn: Create this plot
+
+.small[
+
+```r
+library(ggplot2)
+
+*ggplot(data = ???, aes(x = ???, y = ???)) +
+* geom_???(???)
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-36-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+]
+---
+exclude: TRUE
+# Your Turn: Create this plot
+
+.small[
+
+```r
+library(ggplot2)
+
+*ggplot(data = sleep, aes(x = vore, y = awake)) +
+* geom_boxplot(colour = "blue")
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-37-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+class: section
+# Showing data by group
+
+
+---
+# Mapping aesthetics
+
+
+```r
+ggplot(data = sleep, aes(x = sleep_total, y = sleep_rem, colour = vore)) +
+  geom_point()
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-38-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+![:hl 38.25%, 21%, 12%, 25px]()
+
+
+---
+# Mapping aesthetics
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-39-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Mapping aesthetics
+
+### `ggplot` automatically populates the legends (combining where it can)
+
+
+```r
+ggplot(data = sleep, aes(x = sleep_total, y = sleep_rem, 
+                         colour = vore, shape = vore, size = bodywt)) +
+  geom_point()
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-40-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+# Faceting: `facet_wrap()`
+
+.small[
+
+```r
+ggplot(data = sleep, aes(x = sleep_total, y = sleep_rem, colour = vore)) +
+  geom_point() +
+  facet_wrap(~ body_size, nrow = 1)
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-41-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+]
+
+![:box 20%, 20%, 20%](Split plots by &lt;strong&gt;one&lt;/strong&gt; grouping variable)
+
+---
+# Faceting: `facet_grid()`
+
+.small[
+
+```r
+ggplot(data = sleep, aes(x = vore, y = sleep_total)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  geom_boxplot() +
+  facet_grid(body_size ~ conservation)
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-42-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+
+![:box 20%, 20%, 20%](Split plots by &lt;strong&gt;two&lt;/strong&gt; grouping variables)
+
+
+---
+# Your Turn: Create this plot
+
+
+```r
+*ggplot(data = ???, aes(???)) +
+* ??? +
+* ???
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-44-1.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+![:spacer 15px]()
+
+&gt; **Hint:** `colour` is for outlining with a colour, `fill` is for 'filling' with a colour
+
+
+---
+exclude: TRUE
+# Your Turn: Create this plot
+
+
+```r
+*ggplot(data = sleep, aes(x = body_size, y = awake, fill = body_size)) +
+* geom_boxplot() +
+* facet_wrap(~ vore, nrow = 1)
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-45-1.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+![:spacer 15px]()
+
+&gt; **Hint:** `colour` is for outlining with a colour, `fill` is for 'filling' with a colour
+
+---
+class: section
+
+# Adding Statistics to Plots
+
+---
+# Using stats: Summarizing data
+
+### Add data means as points
+.small[
+
+```r
+ggplot(data = sleep, aes(x = vore, y = sleep_total)) +
+  stat_summary(geom = "point", fun.y = mean)
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-46-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Using stats: Summarizing data
+
+### Add error bars, calculated from the data
+.small[
+
+```r
+ggplot(data = sleep, aes(x = vore, y = sleep_total)) +
+  stat_summary(geom = "point", fun.y = mean) +
+  stat_summary(geom = "errorbar", width = 0.15, fun.data = mean_se)
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-47-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Using stats: Trendlines
+
+### `geom_line()` is connect-the-dots, not a trend or linear model
+
+
+```r
+ggplot(data = sleep, aes(x = sleep_total, y = sleep_rem)) +
+  geom_point() +
+  geom_line()
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-48-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+--
+
+![:box 25%, 25%, 20%](Not what we're looking for)
+
+---
+# Using stats: Trendlines
+### Let's add a trend line properly
+
+Start with basic plot:
+.small[
+
+```r
+ggplot(data = sleep, aes(x = sleep_total, y = sleep_rem)) +
+  geom_point()
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-49-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Using stats: Trendlines
+
+.pull-left[
+### Add the `stat_smooth()`
+- `lm` is for "linear model" (i.e. trendline)
+- the grey area represents the standard error
+]
+
+.pull-right[
+.small[
+
+```r
+ggplot(data = sleep, 
+       aes(x = sleep_total, y = sleep_rem)) +
+  geom_point() + 
+* stat_smooth(method = "lm")
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-50-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+]
+
+---
+# Using stats: Trendlines
+
+.pull-left[
+### Add the `stat_smooth()`
+- `lm` is for "linear model" (i.e. trendline)
+- the grey area represents the standard error
+- remove the grey area with `se = FALSE`
+]
+
+.pull-right[
+.small[
+
+```r
+ggplot(data = sleep, 
+       aes(x = sleep_total, y = sleep_rem)) +
+  geom_point() + 
+* stat_smooth(method = "lm", se = FALSE)
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-51-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+
+
+---
+# Using stats: Trendlines
+
+### A line for each group
+
+
+```r
+ggplot(data = sleep, aes(x = sleep_total, y = sleep_rem, colour = vore)) +
+  geom_point() + 
+  stat_smooth(method = "lm", se = FALSE)
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-52-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+# Using stats: Trendlines
+
+### A line for each group AND overall
+.small[
+
+```r
+ggplot(data = sleep, aes(x = sleep_total, y = sleep_rem, colour = vore)) +
+  geom_point() +  
+  stat_smooth(method = "lm", se = FALSE) + 
+  stat_smooth(method = "lm", se = FALSE, colour = "black")
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-53-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Your Turn: Create this plot
+
+
+```r
+*ggplot(data = ???, aes(x = ???, y = ???, ??? = ???)) +
+* ??? +
+* ??? +
+* ???
+```
+
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-55-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+exclude: TRUE
+# Your Turn: Create this plot
+
+
+```r
+*ggplot(data = sleep, aes(x = sleep_total, y = sleep_rem, colour = body_size)) +
+* facet_wrap(~ body_size) +
+* geom_point() +
+* stat_smooth(method = "lm")
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-56-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+
+---
+class: section
+
+# Customizing plots
+
+---
+# Customizing: Starting plot
+
+### Let's work with this plot
+
+
+```r
+g &lt;- ggplot(data = sleep, aes(x = sleep_total, y = sleep_rem, colour = vore)) +
+  geom_point()
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-58-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+# Customizing: Labels
+
+.small[
+
+```r
+g + labs(title = "Total REM vs. overall sleep", 
+         x = "Total sleep (hrs)", 
+         y = "Total REM sleep (hrs)",
+         colour = "Diet", tag = "A")
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-59-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+![:box 50%, 50%, 40%](Take a moment to add proper labels to some of your previous plots)
+
+---
+# Customizing: Built-in themes
+
+.pull-left[
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-60-1.png" width="95%" style="display: block; margin: auto;" /&gt;&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-60-2.png" width="95%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-61-1.png" width="95%" style="display: block; margin: auto;" /&gt;&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-61-2.png" width="95%" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# Customizing: Data range
+
+.pull-left[
+### Limit the data (exclude data)
+
+```r
+g + xlim(c(0, 15))
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-62-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+```
+## Warning: Removed 9 rows containing missing values (geom_point).
+```
+]
+
+--
+
+.pull-right[
+### Limit the view (zoom)
+
+
+```r
+g + coord_cartesian(xlim = c(0, 15))
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-64-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Customizing: Axes
+
+`scale_` + (`x` or `y`) + type (`contiuous`, `discrete`, `date`, `datetime`)
+
+- `scale_x_continuous()`
+- `scale_y_discrete()`
+- etc.
+
+### Common arguments
+
+
+```r
+g + scale_x_continuous(breaks = seq(0, 20, 10)) # Tick breaks
+g + scale_x_continuous(limits = c(0, 15))       # xlim() is a shortcut for this
+g + scale_x_continuous(expand = c(0, 0))        # Space between axis and data
+```
+
+---
+# Customizing: Axes
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-66-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+
+
+
+---
+# Customizing: Aesthetics
+
+### Using scales
+
+`scale_` + aesthetic (`colour`, `fill`, `size`, etc.) + type (`manual`, `continuous`, `datetime`, etc.)
+
+
+```r
+g + scale_colour_manual(name = "Type", 
+                        values = c("blue", "red", "green", "yellow", "black"))
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-67-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+# Customizing: Aesthetics
+
+### Using scales
+
+Or be very explicit:
+
+
+```r
+g + scale_colour_manual(name = "Type", 
+                        values = c("carni" = "blue", "herbi" = "red", "insecti" = "green",
+                                   "omni" = "yellow", "unknown" = "black"))
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-68-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+# Customizing: Aesthetics
+
+### For colours, consider colour-blind-friendly scales
+
+
+```r
+library(ggthemes)
+g + scale_colour_colorblind(name = "Type")
+g + scale_colour_viridis_d(name = "Type")
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-70-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Customizing: Aesthetics
+
+### Forcing
+
+Remove the association between a variable and an aesthetic
+
+
+```r
+ggplot(data = sleep, aes(x = sleep_total, y = sleep_rem, colour = vore)) +
+  geom_point(colour = "green", size = 5) +
+  stat_smooth(method = "lm", se = FALSE, colour = "red")
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-71-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+![:box 15%, 60%, 20%](&lt;strong&gt;Note:&lt;/strong&gt; When forcing, aesthetic is not inside &lt;code&gt;aes(&amp;rpar;&lt;code&gt;)
+
+---
+# Customizing: Legends placement
+
+.pull-left[
+### At the: top, bottom, left, right
+
+```r
+g + theme(legend.position = "top")
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-72-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+### Exactly here
+
+```r
+g + theme(legend.position = c(0.15, 0.7))
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-73-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Your Turn: Create this plot
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-74-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+exclude: TRUE
+# Your Turn: Create this plot
+
+.small[
+
+```r
+ggplot(sleep, aes(x = sleep_cycle, y = awake, colour = body_size)) +
+  theme_classic() + 
+  geom_point(size = 5) +
+  stat_smooth(method = "lm", se = FALSE, colour = "black") + 
+  scale_colour_manual(name = "Size", values = c("grey", "darkblue")) +
+  labs(x = "Sleep cycle length (hrs)",
+       y = "Awake time (hrs)")
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-75-1.png" width="55%" style="display: block; margin: auto;" /&gt;
+]
+
+
+
+---
+class: section
+
+# Annotating plots
+
+---
+# Annotating
+
+### Plot to be annotated: Let's add sample sizes
+
+
+```r
+ggplot(data = sleep, aes(x = sleep_total, y = sleep_rem, colour = vore)) +
+  geom_point() +
+  facet_grid(~ vore)
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-76-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+# Annotating
+
+### Create data to use in our annotations
+
+
+```r
+n &lt;- data.frame(vore = c("carni", "herbi", "insecti", "omni", "unknown"),
+                text = c("n = 10", "n = 24", "n = 4", "n = 18", "n = 5"))
+n
+```
+
+```
+##      vore   text
+## 1   carni n = 10
+## 2   herbi n = 24
+## 3 insecti  n = 4
+## 4    omni n = 18
+## 5 unknown  n = 5
+```
+
+---
+# Annotating
+
+.small[
+
+```r
+ggplot(data = sleep, aes(x = sleep_total, y = sleep_rem, colour = vore)) +
+  geom_point() +
+  facet_grid(~ vore) +
+* geom_text(data = n,                  # Use 'n' data (not the `sleep` data)
+*           x = -Inf, y = +Inf,        # Hard coded location (left, top)
+*           aes(label = text),         # Map 'text' to label
+*           hjust = 0, vjust = 1)      # Adjust horizontal and vertical placement
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-78-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+&gt; ggplot will automatically apply aesthetics in the `ggplot()` line to all data included
+
+---
+class: section
+# Saving plots
+
+---
+# Saving plots
+
+## RStudio Export
+**Demo**
+
+--
+
+## `ggsave()`
+
+
+```r
+g &lt;- ggplot(sleep, aes(x = vore, y = sleep_total)) +
+  geom_boxplot()
+
+ggsave(filename = "sleep_boxplot.png", plot = g)
+```
+
+```
+## Saving 6 x 3.9 in image
+```
+
+---
+# Saving plots
+
+## Publication quality plots
+
+- Many publications require 'lossless' (pdf, svg, eps, ps) or high quality formats (tiff, png)
+- Specific sizes corresponding to columns widths
+- Minimum resolutions
+
+
+
+```r
+g &lt;- ggplot(sleep, aes(x = vore, y = sleep_total)) +
+  geom_boxplot() +
+  labs(x = "Carnivore", y = "Total sleep (hrs)") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+ggsave(filename = "sleep_boxplot_sm.pdf", plot = g, dpi = 300,
+       height = 80, width = 129, units = "mm")
+```
+
+---
+class: section
+
+# Wrapping Up!
+
+
+
+---
+# Wrapping up: Common mistakes
+
+- The **package** is `ggplot`**2**, the function is just **`ggplot()`**
+- Did you remember to put the **`+`** at the **end** of the line?
+- Order matters! If you're using custom `theme()`'s, make sure you put these lines **after** bundled themes like `theme_bw()`, or they will be overwritten
+
+---
+# Wrapping up: Common mistakes
+
+### I get an error regarding a missing aesthetic? But I know it's there!
+
+![:spacer 5px]()
+
+You are probably trying to plot two different datasets, and you make references to variables in the `ggplot()` call that don't exist in one of the datasets:
+
+![:spacer 5px]()
+
+&gt; Here, `conservation` only exists in the `sleep` dataset, not in the `n` dataset
+
+
+```r
+n &lt;- dplyr::count(sleep, vore)
+
+*ggplot(sleep, aes(x = sleep_total, y = sleep_rem, colour = conservation)) +
+  geom_point() +
+  facet_grid(~ vore) +
+  geom_text(data = n, aes(label = n), 
+            x = -Inf, y = +Inf, hjust = 0, vjust = 1)
+```
+
+```
+## Error in FUN(X[[i]], ...): object 'conservation' not found
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-81-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+# Wrapping up: Common mistakes
+
+### I get an error regarding a missing aesthetic? But I know it's there!
+
+Either move the aesthetic...
+
+
+```r
+ggplot(sleep, aes(x = sleep_total, y = sleep_rem)) +
+* geom_point(aes(colour = conservation)) +
+  facet_grid(~ vore) +
+  geom_text(data = n, aes(label = n), 
+            x = -Inf, y = +Inf, hjust = 0, vjust = 1)
+```
+
+Or assign it to NULL where it is missing...
+
+
+```r
+ggplot(sleep, aes(x = sleep_total, y = sleep_rem, colour = conservation)) +
+  geom_point() +
+  facet_grid(~ vore) +
+* geom_text(data = n, aes(label = n, colour = NULL),
+            x = -Inf, y = +Inf, hjust = 0, vjust = 1)
+```
+
+---
+# Wrapping up
+
+[Answers!](https://github.com/steffilazerte/Teaching/raw/master/TWS%202019%20-%20Figures%20in%20R/intro_with_figures_answers.pdf)
+
+## R is hard: But have no fear!
+- Don't expect to remember everything!
+- Copy/Paste is your friend (never apologize for using it!)
+- Consider this workshop a resource to return to
+
+## Further reading
+- RStudio &gt; Help &gt; Cheatsheets &gt; Data Visualization with ggplot2
+- [R for Data Science: Chapter 3](http://r4ds.had.co.nz/data-visualisation.html)
+- [Cookbook for R](http://www.cookbook-r.com) - by Winston Chang
+  - See also R Graphics Cookbook by Winston Chang
+- [ggplot2 book v2 Hadley Wickham](https://github.com/hadley/ggplot2-book)
+  - You can compile it yourself from GitHub, or ask me for my compiled version (pdf)
+- [gridExtra Vignette:  Arranging Multiple Grobs](https://cran.r-project.org/web/packages/gridExtra/vignettes/arrangeGrob.html)
+
+
+---
+class: section
+# EXTRA: Combining multiple plots
+
+---
+# Combining with `gridExtra`
+
+.small[
+
+```r
+library(gridExtra)
+
+g1 &lt;- ggplot(sleep, aes(x = sleep_total, y = sleep_rem, colour = vore)) +
+  geom_point()
+
+g2 &lt;- ggplot(sleep, aes(x = vore, y = sleep_total, fill = vore)) +
+  geom_boxplot()
+
+grid.arrange(g1, g2, nrow = 1)
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-84-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Combining multiple plots
+
+
+
+```r
+library(gridExtra)
+g1 &lt;- ggplot(sleep, aes(x = body_size, y = sleep_total)) +
+  geom_boxplot()
+
+g2 &lt;- ggplot(sleep, aes(x = sleep_total, y = sleep_rem, colour = vore)) +
+  geom_point()
+
+g3 &lt;- ggplot(sleep, aes(x = vore, y = sleep_total, fill = vore)) +
+  geom_bar(stat = "identity")
+
+layout &lt;- rbind(c(1,2),
+                c(3,3))
+```
+
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-86-1.png" width="15%" style="display: block; margin: auto;" /&gt;
+
+---
+# Combining multiple plots
+
+
+```r
+grid.arrange(g1, g2, g3, layout_matrix = layout)
+```
+
+&lt;img src="intro_with_figures_files/figure-html/unnamed-chunk-87-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+# Your turn
+
+### Combine any 3 figures
+
+- feel free to try out the layout matrix option if you wish
+
+
+```r
+library(gridExtra) # you'll probably have to install this first!
+
+g1 &lt;- ???
+g2 &lt;- ???
+g3 &lt;- ???
+
+grid.arrange(???)
+```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="../macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
