@@ -18,7 +18,7 @@ class: title-slide, nobar
 # Creating Figures as an Intro to R
 ## Using the `ggplot2` package
 
-.footer[Presentation available here: <>]
+.footer[Presentation available here: <https://git.io/Je699>]
 
 ```{r setup, include = FALSE}
 hide_answers <- TRUE
@@ -1351,12 +1351,10 @@ ggplot(sleep, aes(x = sleep_total, y = sleep_rem, colour = conservation)) +
 ---
 # Wrapping up
 
-[Answers!](https://github.com/steffilazerte/Teaching/raw/master/TWS%202019%20-%20Figures%20in%20R/intro_with_figures_answers.pdf)
-
 ## R is hard: But have no fear!
 - Don't expect to remember everything!
 - Copy/Paste is your friend (never apologize for using it!)
-- Consider this workshop a resource to return to
+- Consider this workshop a resource to return to ([Answers to Activities](https://github.com/steffilazerte/Teaching/raw/master/TWS%202019%20-%20Figures%20in%20R/intro_with_figures_answers.pdf))
 
 ## Further reading
 - RStudio > Help > Cheatsheets > Data Visualization with ggplot2
@@ -1366,7 +1364,6 @@ ggplot(sleep, aes(x = sleep_total, y = sleep_rem, colour = conservation)) +
 - [ggplot2 book v2 Hadley Wickham](https://github.com/hadley/ggplot2-book)
   - You can compile it yourself from GitHub, or ask me for my compiled version (pdf)
 - [gridExtra Vignette:  Arranging Multiple Grobs](https://cran.r-project.org/web/packages/gridExtra/vignettes/arrangeGrob.html)
-
 
 ---
 class: section
